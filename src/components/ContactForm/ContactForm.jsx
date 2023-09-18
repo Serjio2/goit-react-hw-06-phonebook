@@ -3,6 +3,8 @@ import * as Yup from 'yup';
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
 import { StyledForm, StyledInput } from './ContactForm.styled';
+// import { useSelector, useDispatch } from "react-redux";
+// import { addContact } from "../../redux/store";
 
 const schema = Yup.object().shape({
   name: Yup.string()
@@ -18,6 +20,7 @@ const initialValues = {
 };
 
 export class ContactForm extends Component {
+  // const dispatch = useDispatch();
   handleSubmitForm = (value, actions) => {
     this.props.addContact({ ...value, id: nanoid() });
     actions.resetForm();
@@ -43,7 +46,7 @@ export class ContactForm extends Component {
             <ErrorMessage name="number" component="span"/>
           </label>
 
-          <button type="submit">Add contact</button>
+          <button  type="submit">Add contact</button>
         </StyledForm>
       </Formik>
     );
