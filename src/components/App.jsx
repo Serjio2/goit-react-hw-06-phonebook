@@ -48,7 +48,7 @@ export const App = () => {
       <GlobalStyle />
 
       <Section title="Phonebook">
-        <ContactForm addContact={addContact} />
+        <ContactForm  />
       </Section>
 
       <Section title="Contacts">
