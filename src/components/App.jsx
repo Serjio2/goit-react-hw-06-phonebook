@@ -1,60 +1,67 @@
 import { GlobalStyle } from './GlobalStyle';
-import { useEffect, useState } from 'react';
+import { Component } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Section } from './Section/Section';
 import { Filter } from './Filter/Filter';
 
-const getLocalStorage = () => {
-  const savedLocalStorage = localStorage.getItem('contact');
-  if (savedLocalStorage !== null) {
-    return JSON.parse(savedLocalStorage);
-  } else {
-    return [];
-  }
-};
+export class App extends Component {
+  state = {
+    contacts: [],
+    filter: '',
+  };
 
-export const App = () => {
-  const [contacts, setContacts] = useState(getLocalStorage);
-  const [filter, setFilter] = useState('');
-
-  // record in LocalStorage
-  useEffect(() => {
-    localStorage.setItem('contact', JSON.stringify(contacts));
-  }, [contacts]);
-
-  const addContact = newName => {
-    if (contacts.map(contact => contact.name).includes(newName.name)) {
+  addContact = newName => {
+    if (
+      this.state.contacts.map(contact => contact.name).includes(newName.name)
+    ) {
       alert(`${newName.name} is already in contacts`);
     } else {
-      setContacts(prevState => [...prevState, newName]);
+      this.setState(prevState => {
+        return {
+          contacts: [...prevState.contacts, newName],
+        };
+      });
     }
   };
 
-  const changeFilter = newFilter => {
-    setFilter(newFilter);
+  changeFilter = newFilter => {
+    this.setState({
+      filter: newFilter,
+    });
   };
 
-  const handleDelete = id => {
-    setContacts(prevState => prevState.filter(contact => contact.id !== id));
+  handleDelete = id => {
+    this.setState(prevState => {
+      return {
+        contacts: prevState.contacts.filter(contact => contact.id !== id),
+      };
+    });
   };
 
-  const visibleContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
+  render() {
+    const { contacts, filter } = this.state;
 
-  return (
-    <div>
-      <GlobalStyle />
+    const visibleContacts = contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
 
-      <Section title="Phonebook">
-        <ContactForm  />
-      </Section>
+    return (
+      <div>
+        <GlobalStyle />
 
-      <Section title="Contacts">
-        <Filter value={filter} onChange={changeFilter} />
-        <ContactList contacts={visibleContacts} onDelete={handleDelete} />
-      </Section>
-    </div>
-  );
-};
+        <Section title="Phonebook">
+          <ContactForm addContact={this.addContact} />
+        </Section>
+
+        <Section title="Contacts">
+          <Filter value={this.state.filter} onChange={this.changeFilter} />
+          <ContactList
+            contacts={visibleContacts}
+            onDelete={this.handleDelete}
+          />
+        </Section>
+      </div>
+    );
+  }
+}
