@@ -4,13 +4,11 @@ import { nanoid } from 'nanoid';
 import { StyledForm, StyledInput } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/contactsSlice';
+// import { PatternFormat } from 'react-number-format';
 
 const schema = Yup.object().shape({
-  name: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  number: Yup.number().required('Required'),
+  name: Yup.string().required('Required'),
+  number: Yup.string().required('Required'),
 });
 
 const initialValues = {
@@ -30,7 +28,6 @@ export const ContactForm = () => {
     dispatch(addContact({ ...value, id: nanoid() }));
     actions.resetForm();
   };
-
   return (
     <Formik
       initialValues={initialValues}
