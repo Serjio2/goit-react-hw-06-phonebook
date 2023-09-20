@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { nanoid } from 'nanoid';
 import { StyledForm, StyledInput } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { addNewContact } from 'redux/contactsSlice';
+import { addContact } from 'redux/contactsSlice';
 
 const schema = Yup.object().shape({
   name: Yup.string()
@@ -27,7 +27,7 @@ export const ContactForm = () => {
       return alert(`${value.name} is already in contacts`);
     }
     
-    dispatch(addNewContact({ ...value, id: nanoid() }));
+    dispatch(addContact({ ...value, id: nanoid() }));
     actions.resetForm();
   };
 
