@@ -32,3 +32,4 @@ export const StyledInput = styled(Field)`
   width: 200px;
   height: 40px;
 `;
+

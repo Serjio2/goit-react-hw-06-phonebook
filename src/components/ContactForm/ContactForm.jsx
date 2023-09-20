@@ -26,7 +26,7 @@ export const ContactForm = () => {
     if (allcontacts.find(contact => contact.name === value.name)) {
       return alert(`${value.name} is already in contacts`);
     }
-    
+
     dispatch(addContact({ ...value, id: nanoid() }));
     actions.resetForm();
   };
